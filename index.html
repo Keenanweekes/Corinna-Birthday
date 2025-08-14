@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, <NAME>! 🎉</title>
+  <meta name="description" content="A little birthday website made with love." />
+  <style>
+    :root{
+      --bg:#0f172a; /* slate-900 */
+      --card:#111827ee; /* gray-900 */
+      --text:#e5e7eb; /* gray-200 */
+      --accent:#f472b6; /* pink-400 */
+      --accent2:#60a5fa; /* blue-400 */
+      --muted:#94a3b8; /* slate-400 */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% -10%, #1f2937 0%, var(--bg) 60%),
+                  radial-gradient(1000px 500px at 120% 10%, #1e293b 0%, var(--bg) 60%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    .container{max-width:940px;margin:0 auto;padding:24px}
+    .hero{display:grid;gap:18px;align-items:center;grid-template-columns:110px 1fr;margin-top:24px}
+    .pfp{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid var(--accent)}
+    h1{font-size:clamp(28px,4vw,44px);margin:0;}
+    .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#0a0a0a;font-weight:700}
+    .card{background:var(--card);backdrop-filter: blur(8px); border:1px solid #26324a; border-radius:16px; padding:18px}
+    .grid{display:grid;gap:16px}
+    .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid #334155;border-radius:999px;color:var(--muted)}
+    .btn{appearance:none;border:none;border-radius:999px;padding:12px 18px;font-weight:700;cursor:pointer;color:#0a0a0a;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+    .center{text-align:center}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:12px}
+    footer{opacity:.7;margin:32px 0}
+    /* Confetti (emoji) */
+    .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .confetti span{position:absolute;top:-10vh;font-size:20px;animation:fall linear forwards}
+    @keyframes fall{to{transform:translateY(120vh) rotate(360deg);opacity:.9}}
+  </style>
+</head>
+<body>
+  <div class="confetti" aria-hidden="true" id="confetti"></div>
+  <div class="container">
+    <div class="hero card">
+      <img class="pfp" src="photos/hero.jpg" alt="<NAME> profile" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%231f2937\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' fill=\'%2394a3b8\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\'%3EAdd photo%3C/text%3E%3C/svg%3E'"/>
+      <div>
+        <div class="tag">Happy Birthday, <span id="name"><NAME></span>! 🎂</div>
+        <h1>To my favourite person in the world</h1>
+        <p class="muted">Made with love by <YOUR NAME>. <span class="pill">🎈 <span id="date"><DATE HERE></span></span></p>
+        <div class="grid grid-2">
+          <button class="btn" id="play">Play birthday song ▶</button>
+          <a class="btn" href="#memories">Jump to memories ↓</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="card" style="margin-top:18px">
+      <h2 style="margin-top:0">A little note</h2>
+      <p>
+        Dear <span id="name2"><NAME></span>,
+        thank you for being you. Here are a few memories and reasons I adore you. I hope this makes you smile.
+      </p>
+      <ul>
+        <li>You light up every room you walk into.</li>
+        <li>Your laugh is my favourite sound.</li>
+        <li>Adventure buddy now and always. 💘</li>
+      </ul>
+    </section>
+
+    <section class="card" id="memories" style="margin-top:18px">
+      <h2 style="margin-top:0">Our memories</h2>
+      <div class="gallery">
+        <!-- Replace these with your own images in /photos -->
+        <img src="photos/1.jpg" alt="Memory 1" />
+        <img src="photos/2.jpg" alt="Memory 2" />
+        <img src="photos/3.jpg" alt="Memory 3" />
+        <img src="photos/4.jpg" alt="Memory 4" />
+        <img src="photos/5.jpg" alt="Memory 5" />
+        <img src="photos/6.jpg" alt="Memory 6" />
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h2 style="margin-top:0">Plan for today</h2>
+      <ol>
+        <li>Brekkie in bed 🥞</li>
+        <li>Surprise stop 🌸</li>
+        <li>Dinner at <em>your pick</em> 🍣</li>
+      </ol>
+      <!-- Optional: drop in a YouTube/Spotify embed link -->
+      <div class="center" style="margin-top:10px">
+        <iframe id="spotify" style="width:100%;max-width:480px;height:152px;border-radius:12px;border:none" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" src="https://open.spotify.com/embed/track/7sP4G9kQnX3K1o5T4?utm_source=generator"></iframe>
+      </div>
+    </section>
+
+    <footer class="center">
+      Made with ❤️ by <YOUR NAME>. 
+    </footer>
+  </div>
+
+  <audio id="song" src="audio/hbd.mp3" preload="auto"></audio>
+  <script>
+    // Simple confetti using emoji so we keep this single-file friendly
+    (function confetti(){
+      const el = document.getElementById('confetti');
+      const emojis = ['🎉','✨','🎈','💖','🥳','🌟'];
+      const count = 60;
+      for(let i=0;i<count;i++){
+        const s = document.createElement('span');
+        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.style.left = Math.random()*100 + 'vw';
+        s.style.animationDuration = (5+Math.random()*6) + 's';
+        s.style.fontSize = (16 + Math.random()*18) + 'px';
+        s.style.opacity = Math.random()*0.9 + 0.1;
+        el.appendChild(s);
+      }
+      setTimeout(()=>el.innerHTML='',12000);
+    })();
+
+    // Play song
+    document.getElementById('play').addEventListener('click',()=>{
+      const a = document.getElementById('song');
+      a.currentTime = 0; a.play();
+    });
+  </script>
+</body>
+</html>

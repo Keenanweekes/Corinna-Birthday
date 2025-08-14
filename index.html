@@ -29,7 +29,7 @@
     .pfp{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid var(--accent)}
     h1{font-size:clamp(28px,4vw,44px);margin:0;}
     .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#0a0a0a;font-weight:700}
-    .card{background:var(--card);backdrop-filter: blur(8px); border:1px solid #26324a; border-radius:16px; padding:18px}
+    .card{background:var(--card);backdrop-filter: none; /* was: blur(8px); removing blur improves performance on mobile */ border:1px solid #26324a; border-radius:16px; padding:18px}
     .grid{display:grid;gap:16px}
     .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
     .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid #334155;border-radius:999px;color:var(--muted)}
@@ -41,6 +41,9 @@
     /* Confetti (emoji) */
     .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
     .confetti span{position:absolute;top:-10vh;font-size:20px;animation:fall linear forwards}
+    @media (prefers-reduced-motion: reduce){
+      .confetti span{animation:none}
+    }
     @keyframes fall{to{transform:translateY(120vh) rotate(360deg);opacity:.9}}
   </style>
 </head>
@@ -48,7 +51,7 @@
   <div class="confetti" aria-hidden="true" id="confetti"></div>
   <div class="container">
     <div class="hero card">
-      <img class="pfp" src="photos/hero.jpg" alt="<NAME> profile" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%231f2937\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' fill=\'%2394a3b8\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\'%3EAdd photo%3C/text%3E%3C/svg%3E'"/>
+      <img class="pfp" src="photos/hero.jpg" alt="<NAME> profile" fetchpriority="high" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%231f2937\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' fill=\'%2394a3b8\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\'%3EAdd photo%3C/text%3E%3C/svg%3E'"/>
       <div>
         <div class="tag">Happy Birthday, <span id="name"><NAME></span>! 🎂</div>
         <h1>To my favourite person in the world</h1>
@@ -56,6 +59,7 @@
         <div class="grid grid-2">
           <button class="btn" id="play">Play birthday song ▶</button>
           <a class="btn" href="#memories">Jump to memories ↓</a>
+          <button class="btn" id="confetti-toggle" type="button">Confetti ✨</button>
         </div>
       </div>
     </div>
@@ -77,12 +81,12 @@
       <h2 style="margin-top:0">Our memories</h2>
       <div class="gallery">
         <!-- Replace these with your own images in /photos -->
-        <img src="photos/1.jpg" alt="Memory 1" />
-        <img src="photos/2.jpg" alt="Memory 2" />
-        <img src="photos/3.jpg" alt="Memory 3" />
-        <img src="photos/4.jpg" alt="Memory 4" />
-        <img src="photos/5.jpg" alt="Memory 5" />
-        <img src="photos/6.jpg" alt="Memory 6" />
+        <img src="photos/1.jpg" alt="Memory 1" loading="lazy" decoding="async" width="320" height="320" />
+        <img src="photos/2.jpg" alt="Memory 2" loading="lazy" decoding="async" width="320" height="320" />
+        <img src="photos/3.jpg" alt="Memory 3" loading="lazy" decoding="async" width="320" height="320" />
+        <img src="photos/4.jpg" alt="Memory 4" loading="lazy" decoding="async" width="320" height="320" />
+        <img src="photos/5.jpg" alt="Memory 5" loading="lazy" decoding="async" width="320" height="320" />
+        <img src="photos/6.jpg" alt="Memory 6" loading="lazy" decoding="async" width="320" height="320" />
       </div>
     </section>
 
@@ -107,21 +111,25 @@
   <audio id="song" src="audio/hbd.mp3" preload="auto"></audio>
   <script>
     // Simple confetti using emoji so we keep this single-file friendly
-    (function confetti(){
+    function launchConfetti(){
       const el = document.getElementById('confetti');
+      el.innerHTML = '';
       const emojis = ['🎉','✨','🎈','💖','🥳','🌟'];
-      const count = 60;
+      const count = 24; // fewer elements = smoother
       for(let i=0;i<count;i++){
         const s = document.createElement('span');
         s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
         s.style.left = Math.random()*100 + 'vw';
-        s.style.animationDuration = (5+Math.random()*6) + 's';
+        s.style.animationDuration = (6+Math.random()*6) + 's';
+        s.style.transform = 'translateZ(0)'; // GPU hint
         s.style.fontSize = (16 + Math.random()*18) + 'px';
         s.style.opacity = Math.random()*0.9 + 0.1;
         el.appendChild(s);
       }
-      setTimeout(()=>el.innerHTML='',12000);
-    })();
+      setTimeout(()=>el.innerHTML='',10000);
+    }
+
+    document.getElementById('confetti-toggle').addEventListener('click', launchConfetti);
 
     // Play song
     document.getElementById('play').addEventListener('click',()=>{
